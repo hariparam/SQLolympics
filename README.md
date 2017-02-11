@@ -1,0 +1,3 @@
+# CIS550-Project
+The project implements a Olympic Quiz web-app. It uses a SQL Db to store a normalized relational tables containing data of olympic winners. It also uses a NoSQL Db to store the questions ans related SQL queries. It also contains a Leaderboard implementation. Each user can play with a username or annonymously. They could choose to play one of the 4 Available modes. After the quis the land on a scores page, which registers the score on to the users table. From the score's page the users can either choose to play the game again or check out the leaderboard
+The implementation also contains pages the gives admins access to test the queries and add new ones to the DB. It also contains a page to view the SQL tables.

@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+		<script src="/javascripts/app_ctrl.js"></script>
+		<script src="/javascripts/uploadercontroller.js"></script>
+		<script src="/javascripts/ngTableController.js"></script>
+		<script src="/javascripts/Appconfig.js"></script>
+		<script src="/javascripts/Appfilters.js"></script>
+		<script src="/javascripts/Appservices.js"></script>
+		<script src="/javascripts/HomeController.js"></script>
+		<script src="/javascripts/QuestionController.js"></script>
+		<script src="/javascripts/ResultController.js"></script>
+		<title>Quiz!</title>
+	</head>
+	<body ng-app="quizApp">
+
+	<script type="text/ng-template" id="/leaderboard.html">
+		<nav class="navbar navbar-default">
+			  	<div class="container-fluid">
+			    	<div class="navbar-header">
+			      		<a class="navbar-brand" href="/#/home">Olympics Quiz</a>
+			    	</div>
+			    	<ul class="nav navbar-nav">
+			      		<li><a href="/#/home">Home</a></li>
+			      		<li class="active"><a href="/#/leaderboard">Leaderboard</a></li>
+			    	</ul>
+			  	</div>
+			</nav>
+		</nav>
+		<!--<hovercard hover-tmpl-url="{{trustSrcurl(https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_120x44dp.png}}">Hover over here</hovercard>-->
+		<!--{{scores}}-->
+		<div class= "table-responsive" align="center">
+			<h2>LeaderBoard</h2>
+			<ul class="nav nav-tabs" style="width: 80% !important">
+				<li ng-class="{'active': toggle_array[0]==true}" style="cursor: pointer;width: 25%;"><a ng-click="toggle(0)">Easy</a></li>
+				<li ng-class="{'active': toggle_array[1]==true}" style="cursor: pointer;width: 25%;"><a ng-click="toggle(1)">Medium</a></li>
+				<li ng-class="{'active': toggle_array[2]==true}" style="cursor: pointer;width: 25%;"><a ng-click="toggle(2)">Hard</a></li>
+				<li ng-class="{'active': toggle_array[3]==true}" style="cursor: pointer;width: 25%;"><a ng-click="toggle(3)">Rapid Fire</a></li>
+			</ul>
+			<div class="tab-content">
+				<div ng-show="toggle_array[0]==true">
+					<table class="table table-bordered table-inverse table-striped table-hover text-center" style="width: 80% !important;">
+						<thead>
+						<tr>
+							<th style="text-align: center">#</th>
+							<th style="text-align: center">UserName</th>
+							<th style="text-align: center">Score</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr ng-repeat="i in scores['Easy']">
+							<td class="col-md-2">{{$index+1}}.</td>
+							<td class="col-md-8">{{i["user_id"]}}</td>
+							<td class="col-md-2">{{i["score"]}}</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+				<div ng-show="toggle_array[1]==true">
+					<table class="table table-bordered table-inverse table-striped table-hover text-center" style="width: 80% !important;">
+						<thead>
+						<tr>
+							<th style="text-align: center">#</th>
+							<th style="text-align: center">UserName</th>
+							<th style="text-align: center">Score</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr ng-repeat="i in scores['Medium']">
+							<td class="col-md-2">{{$index+1}}.</td>
+							<td class="col-md-8">{{i["user_id"]}}</td>
+							<td class="col-md-2">{{i["score"]}}</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+				<div ng-show="toggle_array[2]==true">
+					<table class="table table-bordered table-inverse table-striped table-hover text-center" style="width: 80% !important;">
+						<thead>
+						<tr>
+							<th style="text-align: center">#</th>
+							<th style="text-align: center">UserName</th>
+							<th style="text-align: center">Score</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr ng-repeat="i in scores['Hard']">
+							<td class="col-md-2">{{$index+1}}.</td>
+							<td class="col-md-8">{{i["user_id"]}}</td>
+							<td class="col-md-2">{{i["score"]}}</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+				<div ng-show="toggle_array[3]==true">
+					<table class="table table-bordered table-inverse table-striped table-hover text-center" style="width: 80% !important;">
+						<thead>
+						<tr>
+							<th style="text-align: center">#</th>
+							<th style="text-align: center">UserName</th>
+							<th style="text-align: center">Score</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr ng-repeat="i in scores['Rapid']">
+							<td class="col-md-2">{{$index+1}}.</td>
+							<td class="col-md-8">{{i["user_id"]}}</td>
+							<td class="col-md-2">{{i["score"]}}</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</script>
+		<script type="text/ng-template" id="/home.html">
+			<nav class="navbar navbar-default">
+			  	<div class="container-fluid">
+			    	<div class="navbar-header">
+			      		<a class="navbar-brand" href="/#/home">Olympics Quiz</a>
+			    	</div>
+			    	<ul class="nav navbar-nav">
+			      		<li class="active"><a href="/#/home">Home</a></li>
+			      		<li><a href="/#/leaderboard">Leaderboard</a></li>
+			    	</ul>
+			  	</div>
+			</nav>
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1" style="background-color: #e5e5f9; margin-top: 10%; padding: 3%">
+						<h3 style="text-align: center">Welcome to the Olympics Quiz!</h3>
+						<h5 style="text-align: center">Are you an Olympic buff? You have come to the right place!</h5>
+						<div class="form-group">
+						  	<label for="usr">Username:</label>
+						  	<input type="text" class="form-control" id="usr" ng-model="username" ng-disabled="anonymous_flag">
+						</div>
+						<div class="checkbox">
+						  	<label><input type="checkbox" ng-model="anonymous_flag">Play as Anonymous (your scores won't be displayed on the leaderboard)</label>
+						</div>
+						<div style="background-color: blue">
+							<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+								<button ng-disabled="username=='' && !anonymous_flag" class="btn btn-success" style="margin: 16px; margin-left: 0px; width: 100%" ng-click="go_to_quiz('easy')">Easy (5 hints)</button>
+							</div>
+							<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+								<button ng-disabled="username=='' && !anonymous_flag" class="btn btn-warning" style="margin: 16px; margin-right: 0px; width: 100%; float: right" ng-click="go_to_quiz('medium')">Medium (3 hints)</button>
+							</div>
+							<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+								<button ng-disabled="username=='' && !anonymous_flag" class="btn btn-danger" style="margin: 16px; margin-left: 0px; width: 100%" ng-click="go_to_quiz('hard')">Hard (1 hint)</button>
+							</div>
+							<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+								<button ng-disabled="username=='' && !anonymous_flag" class="btn btn-info" style="margin: 16px; margin-right: 0px; width: 100%; float: right" ng-click="go_to_quiz('rapid_fire')">Rapid Fire (timer)</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</script>
+
+		<script type="text/ng-template" id="/quiz.html">
+			<nav class="navbar navbar-default">
+			  	<div class="container-fluid">
+			    	<div class="navbar-header">
+			      		<a class="navbar-brand" href="/#/home">Olympics Quiz</a>
+			    	</div>
+			    	<ul class="nav navbar-nav">
+			      		<li><a href="/#/home">Home</a></li>
+			      		<li><a href="/#/leaderboard">Leaderboard</a></li>
+			    	</ul>
+			    	<ul class="nav navbar-nav navbar-right">
+				      	<li class="navbar-text"><span class="glyphicon glyphicon-user"></span> Playing as: {{username}}</li>
+				    </ul>
+			  	</div>
+			</nav>
+			<div style="width: 100%; position: absolute; height: 100%; background-color: white; opacity:0.8; z-index: 999" ng-show="loading==true && level_display!='Rapid Fire'">
+				<div class="container" style="margin-top: 20%;">
+				<h2 align="center">LOADING...</h2>
+				</div>
+			</div>
+			<div style="width: 100%; position: absolute; height: 100%; z-index: -1; background-color: red" ng-show="counter <= 5 && counter%2==1 && level_display=='Rapid Fire'">
+			</div>
+			<div style="width: 100%; position: absolute; height: 100%; background-color: white; opacity:0.8; z-index: 999" ng-show="loading==true && level_display=='Rapid Fire'">
+				<div class="container" style="margin-top: 20%;">
+				<h2 align="center" style="color: green" ng-if="show_plus_five==2">CORRECT!</h2>
+				<h2 align="center" ng-if="show_plus_five==0">Get Ready!</h2>
+				<h2 align="center" style="color: red" ng-if="show_plus_five==1">INCORRECT...</h2>
+				</div>
+			</div>
+			<div class="container" ng-style="{'background-color': (counter <= 5 && counter%2==1 && level_display=='Rapid Fire') ? 'red' : 'white'}">
+				<div class="row">
+					<div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1" style="background-color: #e5e5f9; margin-top: 10%;">
+						<h6 style="width: 100%; text-align: center"> <span ng-if="username!='Anonymous'">Your scores will be saved as '{{username}}' on the leaderboard</span><span ng-if="username=='Anonymous'">Your score will not be saved for the leaderboard</span></h6>
+				        <h3 style="text-align: center">Q-{{question+1}}. {{questions[question].question}}</h3>
+				        <h5 style="text-align: center"><span ng-if="level_display!='Practice Mode' && level_display!='Rapid Fire'">Level: </span>{{level_display}}</h5>
+				        <h5 style="text-align: center">Hints remaining: {{hints_remaining}}/{{hints_given}}</h5>
+				        <h4 style="text-align: center" ng-if="level_display=='Rapid Fire'" ng-style="{'color': (counter<=5) ? 'red' : 'black'}">{{counter/60 | numberFixedLen:2}}:{{counter%60 | numberFixedLen:2}} <span ng-show="show_plus_five==2" style="color: green;">+5 seconds!</span></h4>
+				        <!-- <h4>{{counter}}</h4> -->
+				        <div style="width: 100%; margin-top: 40px">
+				            <!-- <div class="radio" ng-repeat="option in questions[question].options">
+							  <label><input type="radio" name="user_answer" ng-model="$parent.user_answer" ng-value="{{option}}" ng-disabled="option.disabled">({{$index | numberToAlphabet}}.) {{option.answerText}}</label>
+							</div> -->
+							<div class="btn-group" data-toggle="buttons" style="width: 100%">
+							  <label class="btn btn-default" style="width: 40%; margin: 2% 5% 2% 5%; border-radius: 10px; font-size: 13px;  display:inline-block; white-space: nowrap; overflow:hidden !important; text-overflow: ellipsis;" ng-repeat="option in questions[question].options" ng-class="{'btn-primary': user_answer.answerText == option.answerText, 'btn-danger': option.disabled==true}">
+							  <input type="radio" name="user_answer" ng-model="$parent.user_answer" ng-value="{{option}}" ng-disabled="option.disabled" autocomplete="off">({{$index | numberToAlphabet}}.) {{option.answerText}}</label>
+							</div>
+				        </div>
+
+						<div ng-show="show_hint==true" vertical-align: top>
+							Hint: {{current_hint}}
+						</div>
+
+				        <div style="float: left; width: 50%; margin-top: 5%">
+				            <button class="btn btn-warning" style="float: left; width: 50%; margin: 5%" ng-click="get_hint()" ng-disabled="questions[question]['hint_taken'] || hints_remaining == 0">Hint</button>
+				        </div>
+				        <div style="float: left; width: 50%; margin-top: 5%" ng-show="question<question_limit">
+				            <button class="btn btn-info" style="float: right; width: 50%; margin: 5%" ng-click="get_next_question()" ng-disabled="user_answer == ''">Next</button>
+				        </div>
+				        <div style="float: left; width: 50%; margin-top: 5%" ng-show="question==question_limit">
+				            <button class="btn btn-success" style="float: right; width: 50%; margin: 5%" ng-click="submit_results()" ng-disabled="user_answer == ''">Submit</button>
+				        </div>
+				    </div>
+				</div>
+			</div>
+		</script>
+
+		<script type="text/ng-template" id="/sqlform.html">
+
+			<nav class="navbar navbar-default">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<a class="navbar-brand" href="/#/home">Olympics Quiz</a>
+					</div>
+					<ul class="nav navbar-nav">
+						<li class="active"><a href="/#/newquestion">New Question</a></li>
+						<li><a href="/#/ngtable">Test Query</a></li>
+					</ul>
+				</div>
+			</nav>
+
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1" style="background-color: #e5e5f9; margin-top: 10%; padding: 3%">
+
+						<h3>Upload New Question</h3>
+
+						<form novalidate class="simple-form">
+							<div>
+								<h5>Question String:</h5>
+								<textarea class="form-control ng-valid ng-dirty ng-valid-parse ng-touched" ng-model = "sqlform.sqlquestion" id= "sqlquestion" cols="30" rows="3"></textarea> </br>
+							</div>
+
+							<div>
+								<h5>Correct Answer SQL: </h5>
+								<textarea class="form-control ng-valid ng-dirty ng-valid-parse ng-touched" ng-model = "sqlform.rightsql" id= "rightsql" cols="30" rows="3"></textarea></br>
+
+								<div>
+									<input type="button" class="btn btn-success" ng-click="validateRight(1)" value="validateRight" /></br>
+								</div>
+
+								<div class="alert {{RightSqlAlertType}}" ng-show="RightSqlShow">
+									</button> <strong><preline>{{RightSqlWrongMessage}}</preline></strong>
+								</div>
+							</div>
+
+
+							<div>
+								<h5>Alternative Answer SQL:</h5>
+								<textarea class="form-control ng-valid ng-dirty ng-valid-parse ng-touched" ng-model = "sqlform.wrongsql" id= "wrongsql" cols="30" rows="3"></textarea></br>
+
+								<div>
+									<input type="button" class="btn btn-success" ng-click="validateAlter(3)" value="validateAlter" /></br>
+								</div>
+
+								<div class="alert {{AlterSqlAlertType}}" ng-show="AlterSqlShow">
+									<strong><preline>{{AlterSqlWrongMessage}}</preline></strong>
+									<li ng-repeat="item in alternativeData">
+										{{item["options"]}}
+									</li>
+								</div>
+							</div>
+
+							<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+								<input type="button" class="btn btn-warning" style="margin: 16px; margin-right: 0px; width: 100%; float: left" ng-click="reset()" value="Reset" />
+							</div>
+							<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+								<input type="submit" class="btn btn-warning" style="margin: 16px; margin-right: 0px; width: 100%; float: right" ng-click="sqldemo(sqlform)" value="Generate Demo Question" />
+							</div>
+
+							<div style="margin-top: 70px">
+								<div class="alert {{UploadSqlAlertType}}" ng-show="!uploadReady">
+									<strong><preline>{{UploadSqlMessage}}</preline></strong>
+								</div>
+
+								<div class="alert {{UploadSqlAlertType}}" ng-show="uploadReady">
+									<div class="row">
+										<div style="margin-top: 10%;">
+											<h3 style="text-align: center">{{questions.question}}</h3>
+											<div style="width: 100%; margin-top: 40px">
+
+												<div ng-repeat="option in questions.options" style="width: 100%">
+													<input type="radio" name="user_answer" ng-model="$parent.user_answer" ng-value="{{option}}" ng-disabled="option.disabled"/>({{$index}}.) {{option.answerText}}
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div ng-show="uploadReady" >
+								<input type="submit" class="btn btn-success" ng-click="sqlUpload(sqlform)" value="Upload To database" ng-disabled="pauseUpload" />
+							</div>
+
+							<div ng-show="uploaderMessage != null">
+								{{uploaderMessage}}
+							</div>
+
+						</form>
+						</div>
+					</div>
+				</div>
+		</script>
+
+		<script type="text/ng-template" id="/ngtable.html">
+			<nav class="navbar navbar-default">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<a class="navbar-brand" href="/#/home">Olympics Quiz</a>
+					</div>
+					<ul class="nav navbar-nav">
+						<li><a href="/#/newquestion">New Question</a></li>
+						<li class="active"><a href="/#/ngtable">Test Query</a></li>
+					</ul>
+				</div>
+			</nav>
+
+			<div class="container">
+				<div class="row">
+					<div>
+						<h5>SQL Select</h5>
+						<textarea class="form-control ng-valid ng-dirty ng-valid-parse ng-touched" ng-model = "sqlsentence" id= "sqlquestion" cols="30" rows="3"></textarea> </br>
+						<div>
+							<input type="button" class="btn btn-success" ng-click="execute_sql()" value="update" /></br>
+						</div>
+						<div class = "alert-danger" ng-show="errorMessage != ''">
+							<h5>{{errorMessage}} </h5>
+						</div>
+					</div>
+
+					<div class="col-md-2">PageSize:
+						<select ng-model="entryLimit" class="form-control">
+							<option>5</option>
+							<option>10</option>
+							<option>20</option>
+							<option>50</option>
+							<option>100</option>
+						</select>
+					</div>
+					<div class="col-md-3">Filter:
+						<input type="text" ng-model="search" ng-change="filter()" placeholder="Filter" class="form-control" />
+					</div>
+					<div class="col-md-4">
+						<h5>Filtered {{ filtered.length }} of {{ totalItems}} total customers</h5>
+					</div>
+				</div>
+				<br/>
+
+				<div class="row">
+					<div class="col-md-12" ng-show="filteredItems > 0">
+						<table class="table table-striped table-bordered">
+							<thead>
+								<td ng-repeat="th in columns">{{th}}&nbsp;<a ng-click="sort_by('th');"><i class="glyphicon glyphicon-sort"></i></a></td>
+							</thead>
+
+							<tbody>
+							<tr ng-repeat="data in filtered = (list | filter:search | orderBy : predicate :reverse) | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
+								<td ng-repeat="th in columns">
+									{{data[th]}}
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="col-md-12" ng-show="filteredItems == 0">
+						<div class="col-md-12">
+							<h4>No data found</h4>
+						</div>
+					</div>
+					<div class="col-md-12" ng-show="filteredItems > 0">
+						<div pagination="" page="currentPage" on-select-page="setPage(page)" boundary-links="true" total-items="filteredItems" items-per-page="entryLimit" class="pagination-small" previous-text="&laquo;" next-text="&raquo;">
+						</div>
+					</div>
+				</div>
+			</div>
+		</script>
+
+		<script type="text/ng-template" id="/result.html">
+			<nav class="navbar navbar-default">
+			  	<div class="container-fluid">
+			    	<div class="navbar-header">
+			      		<a class="navbar-brand" href="/#/home">Olympics Quiz</a>
+			    	</div>
+			    	<ul class="nav navbar-nav">
+			      		<li><a href="/#/home">Home</a></li>
+			      		<li><a href="/#/leaderboard">Leaderboard</a></li>
+			    	</ul>
+			  	</div>
+			</nav>
+			<div class="container" style="margin-left: 15%; margin-right: 15%; margin-top: 5%; width: 70%">
+			  	<div ng-show="questions!=null && questions.length!=0">
+				  	<h3 style="text-align: center">You got {{correct_answers}}/{{questions.length}} correct!</h3>
+				  	<h3 style="text-align: center">Your score: {{score}}/{{questions.length*10}}</h3>
+				  	<h5 style="text-align: center">Hints used: {{hints_used}}</h5>
+				  	<table class="table table-striped">
+				    	<thead>
+				      		<tr>
+				        		<th class="col-md-1">#</th>
+				        		<th class="col-md-8">Question</th>
+				        		<th class="col-md-3">Correct Answer</th>
+				      		</tr>
+				    	</thead>
+				    	<tbody>
+				      		<tr ng-repeat="question in questions" ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()">
+				        		<td class="col-md-1">{{$index+1}}.</td>
+				        		<td class="col-md-8">{{question.question}}</td>
+				        		<td class="col-md-3" ng-class="question.user_answer==true?'btn-success':'btn-danger'">
+									<div style="position:relative; z-index:100" ng-show="hoverEdit">
+										<div style="position: absolute; background-color: gray; top: 28px; width: 200px; height: 300px; border-radius: 10px">
+											<img style="object-fit: contain; width: 200px; height: 300px" src="{{question.related_image}}">
+										</div>
+									</div>
+				        			({{question.correct_option | numberToAlphabet}}.) <a href="https://google.com/search?&q={{question.correct_answer}}" target="_blank" style="color: white">{{question.correct_answer}}</a>
+					        		<span ng-if="question.hint_taken==true && question.user_answer==true">(+5)</span>
+					        		<span ng-if="question.hint_taken==true && question.user_answer==false">(0)</span>
+					        		<span ng-if="question.hint_taken==false && question.user_answer==true">(+10)</span>
+					        		<span ng-if="question.hint_taken==false && question.user_answer==false">(0)</span>
+				        		</td>
+							</tr>
+				    	</tbody>
+				  	</table>
+			  	</div>
+			  	<div ng-show="questions==null || questions.length==0">
+			  		<h3 style="text-align: center">No results to show. You can take the quiz again from below.</h3>
+			  	</div>
+			  	<div class="row" style="margin-top: 5%">
+			  		<div class="row" style="text-align: center; margin-top: 5%; margin-bottom: 40px">
+				  		<form action="/#/leaderboard">
+						    <input type="submit" class="btn btn-primary" value="Leaderboard" />
+						</form>
+				  	</div>
+
+			  		<h3 style="text-align: center">Try again</h3>
+			  		<div class="form-group">
+					  	<label for="usr">Username:</label>
+					  	<input type="text" class="form-control" id="usr" ng-model="username" ng-disabled="anonymous_flag">
+					</div>
+					<div class="checkbox">
+					  	<label><input type="checkbox" ng-model="anonymous_flag">Play as Anonymous (your scores won't be displayed on the leaderboard)</label>
+					</div>
+					<div style="background-color: blue">
+						<div class="col-md-3 col-lg-3 col-sm-6 col-xs-6">
+							<button ng-disabled="username=='' && !anonymous_flag" class="btn btn-success" style="margin: 16px; margin-left: 0px; width: 100%" ng-click="go_to_quiz('easy')">Easy (5 hints)</button>
+						</div>
+						<div class="col-md-3 col-lg-3 col-sm-6 col-xs-6">
+							<button ng-disabled="username=='' && !anonymous_flag" class="btn btn-warning" style="margin: 16px; margin-right: 0px; width: 100%; float: right" ng-click="go_to_quiz('medium')">Medium (3 hints)</button>
+						</div>
+						<div class="col-md-3 col-lg-3 col-sm-6 col-xs-6">
+							<button ng-disabled="username=='' && !anonymous_flag" class="btn btn-danger" style="margin: 16px; margin-left: 0px; width: 100%" ng-click="go_to_quiz('hard')">Hard (1 hint)</button>
+						</div>
+						<div class="col-md-3 col-lg-3 col-sm-6 col-xs-6">
+							<button ng-disabled="username=='' && !anonymous_flag" class="btn btn-info" style="margin: 16px; margin-right: 0px; width: 100%; float: right" ng-click="go_to_quiz('rapid_fire')">Rapid Fire (timer)</button>
+						</div>
+					</div>
+			  		</div>
+			  </div>
+			</div>
+		</script>
+
+
+        <ui-view></ui-view>
+	</body>
+</html>
